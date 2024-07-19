@@ -24,21 +24,34 @@ int Particle::where(double _x0)
 
 };
 
-double Particle::integrateXS(int index)
+double Particle::integrateXS(int index, bool direction)
 {
-    double _xs_here{_total[index]*(_bounds[index+1]-_location)};
-    for (int i = index+1; i < _bounds.size()-1; i++)
-    {
-        _xs_here += (_bounds[i+1]-_bounds[i])*_total[i];
-    }
-    return _xs_here;
     
+    if (direction)
+    {
+        double _xs_here{_total[index]*(_location-_bounds[index])};
+        for (int i = index; i > 0; i--)
+        {
+            _xs_here += (_bounds[index]-_bounds[index-1])*_total[index-1];
+        }
+        return _xs_here;
+        
+    }
+    else
+    {
+        double _xs_here{_total[index]*(_bounds[index+1]-_location)};
+        for (int i = index+1; i < _bounds.size()-1; i++)
+        {
+            _xs_here += (_bounds[i+1]-_bounds[i])*_total[i];
+        }
+        return _xs_here;
+    }
 }
 double Particle::sampleDistance(int index)
 {
     double _r3{std::rand() / RAND_MAX};
     bool _direction{_r3 < 0.5};
-    return -std::log(_r3) / integrateXS(index) * (1.0 - 2.0*_direction);
+    return -std::log(_r3) / integrateXS(index,_direction) * (1.0 - 2.0*_direction);
 }
 
 interaction Particle::move()

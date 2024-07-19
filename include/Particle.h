@@ -17,7 +17,7 @@ private:
      */
     vec _bounds{};
     boundaries _bc_type;
-    double integrateXS(int index);
+    double integrateXS(int index, bool direction);
     int where(double _x0);
     double sampleDistance(int index);
 public:
