@@ -1,6 +1,8 @@
 #include <vector>
 #include "Enumerations.h"
 #include "Inputs.h"
+#include <string>
+
 using vec = std::vector<double>;
 class Properties
 {

@@ -10,14 +10,18 @@ private:
     vec _total{};
     // ratio of fissions occuring in each region, used for source
     vec _fission_ratio{};
+    vec _fis{};
 
     /**
      * Geometry definitions
      */
     vec _bounds{};
     boundaries _bc_type;
+    double integrateXS(int index);
+    int where(double _x0);
+    double sampleDistance(int index);
 public:
-    double weight{1.0};
-    void initialize(Properties _props, double _x0);
-    interaction move(boundaries _bc);
+    Particle(Properties _props, double _x0);
+    
+    interaction move();
 };
