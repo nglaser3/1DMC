@@ -1,3 +1,4 @@
+#define ENUMERATIONS_H
 enum boundaries
 {
     white,
@@ -8,4 +9,5 @@ enum interaction
     absorbtion,
     scatter,
     fission,
+    death,
 };

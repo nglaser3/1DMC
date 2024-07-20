@@ -1,5 +1,6 @@
+#ifndef PARTICLE_H
 #include "../include/Particle.h"
-
+#endif
 Particle::Particle(Properties _props, double _x0)
 :_location{_x0},
 _abs{_props.get_absorb_xs()},
@@ -20,8 +21,9 @@ int Particle::where(double _x0)
         {
             return i-1;
         }
+        else return _bounds.size();
     };
-
+    return _bounds.size();
 };
 
 double Particle::integrateXS(int index, bool direction)
@@ -34,7 +36,7 @@ double Particle::integrateXS(int index, bool direction)
         {
             _xs_here += (_bounds[index]-_bounds[index-1])*_total[index-1];
         }
-        return _xs_here;
+        return _xs_here;///(_bounds.back() - _bounds.front());
         
     }
     else
@@ -44,38 +46,40 @@ double Particle::integrateXS(int index, bool direction)
         {
             _xs_here += (_bounds[i+1]-_bounds[i])*_total[i];
         }
-        return _xs_here;
+        return _xs_here;///(_bounds.back() - _bounds.front());
     }
 }
-double Particle::sampleDistance(int index)
+double Particle::sampleDistance(int index, double _rand_num)
 {
-    double _r3{std::rand() / RAND_MAX};
-    bool _direction{_r3 < 0.5};
-    return -std::log(_r3) / integrateXS(index,_direction) * (1.0 - 2.0*_direction);
+    bool _direction{_rand_num < 0.5};
+    return -std::log(.01 / integrateXS(index,_direction)) * (1.0 - 2.0*_direction);
 }
 
-interaction Particle::move()
+interaction Particle::move(double _r1,double _r2, double _r3)
 {
-    double _r1{std::rand() / RAND_MAX};
-    double _r2{std::rand() / RAND_MAX};
     int _index{where(_location)};
 
-    double _distance{sampleDistance(_index)};
+    double _distance{sampleDistance(_index,_r1)};
 
     int _index_now{where(_location+_distance)};
-    if (_index_now <0 || _index_now > _bounds.size())
+    if (_index_now <0 || _index_now > _bounds.size()-1)
     {
         return interaction::death;
     }
     else
     {
         _location += _distance;
-        if (_r1 < _sct[_index_now]/_total[_index_now]) return interaction::scatter;
+        if (_r2 < _sct[_index_now]/_total[_index_now]) return interaction::scatter;
         
         else
         {
-            if (_r2 < _fis[_index_now]/_abs[_index_now]) return interaction::fission;
+            if (_r3 < _fis[_index_now]/_abs[_index_now]) return interaction::fission;
             else return interaction::absorbtion;
         }
     }
+}
+
+double Particle::get_loc()
+{
+    return _location;
 }
