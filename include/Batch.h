@@ -1,35 +1,36 @@
+#define BATCH_H
+#ifndef ENUMERATIONS_H
+#ifndef PROPERTIES_H
+#include "Properties.h"
 #include "Enumerations.h"
+#endif
+#endif
 #include <vector>
 
 class Batch
 {
 private:
-    /**
-     * Simulation settings
-     */
-    std::vector<double> fission_sites{};
-    double particles{};
-
-    /**
-     * Simulation results:
-     */
-    std::vector<double> interaction_sites{};
-    double k_eff{};
-    double scalar_flux;
-    std::vector<double> flux_vector;
     
-public:
-    /**
-     * Initialize and run
-     */
-    void settings(double _p, std::vector<double> _site_locs);
-    void run(Properties _props);
+    unsigned long _particles;
 
-    /**
-     * Getter functions
-     */
-    std::vector<double> get_interaction_sites();
+    std::vector<double> birth_sites;
+
+    std::vector<double> fission_sites;
+
+    double k_eff;
+
+    double scalar_flux;
+
+    std::vector<double> rand_vec{};
+public:
+    Batch(std::vector<double> sites, std::vector<double> randoms);
+
+    void run_batch(Properties _props);
+
     double get_k_eff();
+
     double get_scalar_flux();
-    double get_flux_vector();
+
+    std::vector<double> get_fission_sites();
+    
 };

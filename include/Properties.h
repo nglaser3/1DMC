@@ -1,6 +1,12 @@
-#include <vector>
+#define PROPERTIES_H
+#ifndef INPUTS_H
+#ifndef ENUMERATIONS_H
 #include "Enumerations.h"
 #include "Inputs.h"
+#endif
+#endif
+#include <vector>
+#include <string>
 using vec = std::vector<double>;
 class Properties
 {
@@ -20,6 +26,7 @@ private:
      */
     vec region_bounds{};
     boundaries bc_type;
+    unsigned seed;
 public:
     /**
      * Initialize properties
@@ -36,6 +43,6 @@ public:
     vec get_fission_ratio();
     vec get_region_bounds();
     boundaries get_bc_type();
+    unsigned get_seed();
 
 };
-
