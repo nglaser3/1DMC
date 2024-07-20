@@ -31,7 +31,7 @@ public:
     /**
      * Initialize properties
      */
-    Properties();
+    Properties(SetInputs inputs);
 
     /**
     * Getter Functions

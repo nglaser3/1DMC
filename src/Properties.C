@@ -2,13 +2,13 @@
 #include "../include/Properties.h"
 #endif
 #include <numeric>
-Properties::Properties(): 
-abs_xs{Inputs::absorbtion_xs},
-sct_xs{Inputs::scatter_xs},
-fis_xs{Inputs::fission_xs},
-region_bounds{Inputs::region_boundaries},
-bc_type{Inputs::boundary_condition},
-seed{Inputs::random_seed}
+Properties::Properties(SetInputs inputs): 
+abs_xs{inputs.absorbtion_xs},
+sct_xs{inputs.scatter_xs},
+fis_xs{inputs.fission_xs},
+region_bounds{inputs.region_boundaries},
+bc_type{inputs.boundary_condition},
+seed{inputs.random_seed}
 {
     for (int i = 0; i != abs_xs.size(); i++)
     {

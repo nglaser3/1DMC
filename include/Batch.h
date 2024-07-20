@@ -23,7 +23,7 @@ private:
 
     std::vector<double> rand_vec{};
 public:
-    Batch(std::vector<double> sites, std::vector<double> randoms);
+    Batch(std::vector<double> sites, std::vector<double> randoms, SetInputs inputs);
 
     void run_batch(Properties _props);
 

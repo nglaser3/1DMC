@@ -4,8 +4,8 @@
 #include "../include/Batch.h"
 #include <vector>
 
-Batch::Batch(std::vector<double> sites, std::vector<double> randoms)
-:_particles{Inputs::particles},
+Batch::Batch(std::vector<double> sites, std::vector<double> randoms, SetInputs inputs)
+:_particles{inputs.particles},
 birth_sites{sites},
 rand_vec{randoms},
 k_eff{0.0},

@@ -11,12 +11,15 @@ double rand_d()
     return val/rand_max;
 }
 
-int main()
+int main(int argv, char* argc[])
 {
+    std::cout<<"Reading and Making Inputs."<<std::endl;
+    SetInputs inputs(argc[1]);
+
     std::vector<double> k_eff_vector{};
     std::vector<double> flux_vector{};
-    unsigned _batches{Inputs::batches};
-    Properties props;
+    unsigned _batches{inputs.batches};
+    Properties props(inputs);
     std::vector<double> bounds{props.get_region_bounds()};
 
 // Making the Random inputs
@@ -31,12 +34,13 @@ int main()
         rand_d()*(bounds.back() - bounds.front()) + bounds.front()
         );
     }
+    std::cout<<"Done Reading and Making Inputs."<<std::endl;
     std::cout<<"Starting Simulation"<<std::endl;
 // Running Simulation
     for (int i = 0; i < _batches; i++)
     {
         std::cout<<"Starting Batch: "<<i+1<<". ";
-        Batch _batch(births,random_input);
+        Batch _batch(births,random_input,inputs);
         k_eff_vector.push_back(_batch.get_k_eff());
         flux_vector.push_back(_batch.get_scalar_flux());
         std::vector<double> new_sites{_batch.get_fission_sites()};
